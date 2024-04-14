@@ -1,6 +1,13 @@
+# API variables
+.env
+
 .idea
 
 venv
 **pycache**
+-checkpoin
 
+# data files
 *.csv
+*.json
+*.arrow

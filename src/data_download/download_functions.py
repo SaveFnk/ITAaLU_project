@@ -1,4 +1,9 @@
+import os
+from pathlib import Path
+
 import requests
+from datasets import load_dataset_builder
+from dotenv import load_dotenv
 
 
 def download_hatespeech_version_2():
@@ -18,6 +23,21 @@ def download_hatespeech_version_2():
             file.write(downloaded_data.content)
 
 
+def download_toxify():
+    dotenv_path = Path(".env")
+    load_dotenv(dotenv_path=dotenv_path)
+    # the toke should be generated on hugging face
+    token = os.environ.get("HUGGING_FACE_TOKEN")
+
+    # # 250k training examples
+    builder = load_dataset_builder("skg/toxigen-data", name="train", token=token, trust_remote_code=True)
+    builder.download_and_prepare("./data/toxigen-data-train")
+
+    # Human study
+    builder = load_dataset_builder("skg/toxigen-data", name="annotated", token=token, trust_remote_code=True)
+    builder.download_and_prepare("./data/toxigen-data-annotated")
+
 
 if __name__ == "__main__":
-    download_hatespeech_version_2()
+    # download_hatespeech_version_2()
+    download_toxify()
