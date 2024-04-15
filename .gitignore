@@ -5,9 +5,10 @@
 
 venv
 **pycache**
--checkpoin
+.ipynb_checkpoints
 
 # data files
 *.csv
 *.json
 *.arrow
+*.tsv
