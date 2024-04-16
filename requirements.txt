@@ -4,3 +4,4 @@ python-dotenv==1.0.1
 datasets==2.18.0
 tweepy==4.14.0
 notebook
+pandas==2.2.2

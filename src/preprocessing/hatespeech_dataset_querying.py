@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -44,5 +45,19 @@ def prepare_hatespeech_v2_dataset(save=True):
         print(f"Saved preprocessed data to: {save_file}")
 
 
-if __name__ == '__main__':
-    prepare_hatespeech_v2_dataset()
+def load_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech_v2.csv", filter=True):
+    df = pd.read_csv(file_path)
+
+    if filter:
+        # we are working on an NLP task, hence we will take only the tweet id, text, label, topic
+        df = df[["tweet_id", "text", "label", "topic"]]
+        # enforce data types
+        df["label"] = df["label"].astype("category")
+        df["topic"] = df["topic"].astype("category")
+        df["tweet_id"] = df["tweet_id"].astype(np.int64)
+
+    return df
+
+
+# if __name__ == '__main__':
+#    prepare_hatespeech_v2_dataset()
