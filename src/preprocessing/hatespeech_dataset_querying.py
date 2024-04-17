@@ -58,6 +58,27 @@ def load_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech
 
     return df
 
+# open the file prepared_hatespeech_v2.csv, shuflle the data split it into training and testing and save them into two separate files
+def split_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech_v2.csv", test_size = 0.2, save=True):
+    df = pd.read_csv(file_path)
+    # shuffle the data
+    df = df.sample(frac=1, random_state=42).reset_index(drop=True)
+
+    train_size = int((1-test_size) * df.shape[0])
+    train_df = df.iloc[:train_size]
+    test_df = df.iloc[train_size:]
+
+    if save:
+        train_file = "data/hatespeech_v2/train_hatespeech_v2.csv"
+        test_file = "data/hatespeech_v2/test_hatespeech_v2.csv"
+
+        train_df.to_csv(train_file, index=False)
+        test_df.to_csv(test_file, index=False)
+
+        print(f"Saved train data to: {train_file}")
+        print(f"Saved test data to: {test_file}")
+
+    return train_df, test_df
 
 # if __name__ == '__main__':
 #    prepare_hatespeech_v2_dataset()
