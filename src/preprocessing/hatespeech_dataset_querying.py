@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 
@@ -52,14 +54,15 @@ def load_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech
         # we are working on an NLP task, hence we will take only the tweet id, text, label, topic
         df = df[["tweet_id", "text", "label", "topic"]]
         # enforce data types
-        df["label"] = df["label"].astype("category")
+        df["label"] = df["label"].astype(int)
         df["topic"] = df["topic"].astype("category")
         df["tweet_id"] = df["tweet_id"].astype(np.int64)
 
     return df
 
+
 # open the file prepared_hatespeech_v2.csv, shuflle the data split it into training and testing and save them into two separate files
-def split_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech_v2.csv", test_size = 0.2, save=True):
+def split_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech_v2.csv", test_size=0.2, save=True):
     df = pd.read_csv(file_path)
     # shuffle the data
     df = df.sample(frac=1, random_state=42).reset_index(drop=True)
@@ -79,6 +82,21 @@ def split_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeec
         print(f"Saved test data to: {test_file}")
 
     return train_df, test_df
+
+
+def hatespeech_v2_load_train_and_validation_set():
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "./../../data/hatespeech_v2/train_hatespeech_v2.csv")
+    if not os.path.exists(filename):
+        split_hatespeech_v2_dataset()
+
+    df = load_hatespeech_v2_dataset(file_path=filename)
+    train_len =  int(df.shape[0] * 0.8)
+    train_df = df.iloc[:train_len]
+    validation_df = df.iloc[train_len:]
+
+    return train_df, validation_df
+
 
 # if __name__ == '__main__':
 #    prepare_hatespeech_v2_dataset()
