@@ -16,3 +16,9 @@ def load_toxigen_train_and_validation():
     return train_df, validation_df
 
 
+def load_big_toxigen_train_set():
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "./../../data/toxigen/toxigen.csv")
+
+    df = pd.read_csv(filename)[["label", "text", "target_group"]]
+    return df

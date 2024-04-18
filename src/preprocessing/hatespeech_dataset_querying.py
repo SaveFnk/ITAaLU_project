@@ -54,8 +54,9 @@ def load_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeech
         # we are working on an NLP task, hence we will take only the tweet id, text, label, topic
         df = df[["tweet_id", "text", "label", "topic"]]
         # enforce data types
+        # they can't be categories, because datasets library doesn't support them
         df["label"] = df["label"].astype(int)
-        df["topic"] = df["topic"].astype("category")
+        df["topic"] = df["topic"].astype(int)
         df["tweet_id"] = df["tweet_id"].astype(np.int64)
 
     return df
@@ -96,6 +97,18 @@ def hatespeech_v2_load_train_and_validation_set():
     validation_df = df.iloc[train_len:]
 
     return train_df, validation_df
+
+
+def map_predicted_to_label_hatesv2(y_pred):
+    y_pred_mapped = []
+    for json_pair in y_pred:
+        if json_pair["label"] == "Normal":
+            y_pred_mapped.append(0)
+        if json_pair["label"] == "Offensive":
+            y_pred_mapped.append(1)
+        if json_pair["label"] == "Hate speech":
+            y_pred_mapped.append(2)
+    return y_pred_mapped
 
 
 # if __name__ == '__main__':
