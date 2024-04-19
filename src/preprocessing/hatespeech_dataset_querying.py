@@ -91,12 +91,22 @@ def hatespeech_v2_load_train_and_validation_set():
     if not os.path.exists(filename):
         split_hatespeech_v2_dataset()
 
-    df = load_hatespeech_v2_dataset(file_path=filename)
+    df = load_hatespeech_v2_dataset(file_path=filename)[["text", "label"]]
     train_len =  int(df.shape[0] * 0.8)
     train_df = df.iloc[:train_len]
     validation_df = df.iloc[train_len:]
 
     return train_df, validation_df
+
+
+def hatespeech_v2_load_test_set():
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "./../../data/hatespeech_v2/test_hatespeech_v2.csv")
+    if not os.path.exists(filename):
+        split_hatespeech_v2_dataset()
+
+    df = load_hatespeech_v2_dataset(file_path=filename)[["text", "label"]]
+    return df
 
 
 def map_predicted_to_label_hatesv2(y_pred):
