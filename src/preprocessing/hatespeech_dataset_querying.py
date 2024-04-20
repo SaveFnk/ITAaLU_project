@@ -85,16 +85,21 @@ def split_hatespeech_v2_dataset(file_path="data/hatespeech_v2/prepared_hatespeec
     return train_df, test_df
 
 
-def hatespeech_v2_load_train_and_validation_set():
+def hatespeech_v2_load_train_and_validation_set(large=False):
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, "./../../data/hatespeech_v2/train_hatespeech_v2.csv")
     if not os.path.exists(filename):
         split_hatespeech_v2_dataset()
 
     df = load_hatespeech_v2_dataset(file_path=filename)[["text", "label"]]
-    train_len =  int(df.shape[0] * 0.8)
-    train_df = df.iloc[:train_len]
+    train_len = int(df.shape[0] * 0.8)
     validation_df = df.iloc[train_len:]
+
+    if large:
+        filename = os.path.join(dirname, "./../../data/large_merged_training_set_toxigen_and_hate.csv")
+        train_df = pd.read_csv(filename)
+    else:
+        train_df = df.iloc[:train_len]
 
     return train_df, validation_df
 

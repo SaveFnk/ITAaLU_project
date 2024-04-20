@@ -11,7 +11,7 @@ def train_model_and_predict(model_name):
     print(f"Training model {model_name}!\n Training started at {start_time}")
 
     # prepare the dataset in the correct format
-    hate_dataset_dict = prepare_dataset_dict()
+    hate_dataset_dict = prepare_dataset_dict(large=True)
     model_name = "unhcr/hatespeech-detection"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 

@@ -42,8 +42,8 @@ def predict_text(text, tokenizer):
     return tokenizer(text, padding=True, truncation=True, return_tensors="pt")
 
 
-def prepare_dataset_dict():
-    train_df, validation_df = hatespeech_v2_load_train_and_validation_set()
+def prepare_dataset_dict(large):
+    train_df, validation_df = hatespeech_v2_load_train_and_validation_set(large=large)
     test_df = hatespeech_v2_load_test_set()
     print(f"Train set size {len(train_df)}, validation set {len(validation_df)}, and test set {len(test_df)}")
 
