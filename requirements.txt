@@ -2,10 +2,10 @@ requests==2.31.0
 numpy==1.26.4
 python-dotenv==1.0.1
 datasets==2.18.0
-tweepy==4.14.0
 notebook
 pandas==2.2.2
-scikit-learn
-nltk
-transformers
+scikit-learn==1.4.2
+nltk==3.8.1
+transformers==4.39.3
+plotly==5.21.0
 evaluate
